@@ -2,12 +2,21 @@
 session_start();
 //Conexao
 require_once 'conexao.php';
+//Clear
+
+function clear($input){
+    global $conn;
+    $var =  mysqli_escape_string($conn,$input);
+    //Xss
+    $var = htmlspecialchars($var);
+    return $var;
+}
 
 if(isset($_POST['btn-cadastrar'])):
-$nome = mysqli_escape_string($conn,$_POST['nome']);
-$sobrenome = mysqli_escape_string($conn,$_POST['sobrenome']);
-$email = mysqli_escape_string($conn,$_POST['email']);
-$idade = mysqli_escape_string($conn,$_POST['idade']);
+$nome = clear($conn,$_POST['nome']);
+$sobrenome = clear($conn,$_POST['sobrenome']);
+$email = clear($conn,$_POST['email']);
+$idade = clear($conn,$_POST['idade']);
 //Envia para o banco de dados
 $sql = "INSERT INTO clientes (nome,sobrenome,email,idade)VALUES ('$nome','$sobrenome','$email','$idade')";
 //Redireciona para pagina
